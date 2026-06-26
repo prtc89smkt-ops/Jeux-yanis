@@ -4,51 +4,169 @@
     box-sizing:border-box;
 }
 
+:root{
+    --cyan:#00eaff;
+    --blue:#0099ff;
+    --purple:#7b2cff;
+    --pink:#ff3cac;
+}
+
 body{
     overflow:hidden;
     background:#000;
     font-family:Arial,sans-serif;
 }
 
+/* Fond spatial */
 canvas{
+    position:absolute;
+    inset:0;
     width:100vw;
     height:100vh;
     display:block;
+
     background:
-        radial-gradient(circle at center,#003366,#000814 70%);
+    radial-gradient(circle at 20% 15%,rgba(0,255,255,.18),transparent 20%),
+    radial-gradient(circle at 80% 25%,rgba(123,44,255,.18),transparent 30%),
+    radial-gradient(circle at 60% 85%,rgba(255,60,172,.12),transparent 35%),
+    radial-gradient(circle at center,#093b73 0%,#02152d 45%,#000 100%);
 }
 
+/* Etoiles */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+
+    background:
+        radial-gradient(2px 2px at 5% 8%,#fff,transparent),
+        radial-gradient(1px 1px at 10% 70%,#fff,transparent),
+        radial-gradient(2px 2px at 15% 35%,#8ff,transparent),
+        radial-gradient(1px 1px at 20% 90%,#fff,transparent),
+        radial-gradient(2px 2px at 30% 20%,#fff,transparent),
+        radial-gradient(1px 1px at 40% 60%,#fff,transparent),
+        radial-gradient(2px 2px at 55% 15%,#9ff,transparent),
+        radial-gradient(1px 1px at 60% 75%,#fff,transparent),
+        radial-gradient(2px 2px at 70% 40%,#cff,transparent),
+        radial-gradient(1px 1px at 82% 18%,#fff,transparent),
+        radial-gradient(2px 2px at 88% 70%,#9ff,transparent),
+        radial-gradient(1px 1px at 95% 55%,#fff,transparent);
+
+    background-size:500px 500px;
+    animation:stars 80s linear infinite;
+    opacity:.9;
+}
+
+/* Grande nébuleuse */
+body::after{
+    content:"";
+    position:fixed;
+    inset:-20%;
+    pointer-events:none;
+
+    background:
+        radial-gradient(circle at 35% 40%,rgba(0,255,255,.15),transparent 35%),
+        radial-gradient(circle at 70% 60%,rgba(255,0,255,.12),transparent 40%),
+        radial-gradient(circle at 50% 50%,rgba(0,120,255,.12),transparent 45%);
+
+    filter:blur(70px);
+    animation:nebula 20s ease-in-out infinite alternate;
+}
+
+/* HUD */
 #hud{
     position:absolute;
-    top:15px;
-    left:15px;
-    right:15px;
+    top:20px;
+    left:20px;
+    right:20px;
 
     display:flex;
     justify-content:space-between;
 
-    color:white;
-
-    font-size:28px;
-    font-weight:bold;
-
     z-index:100;
-
-    text-shadow:0 0 15px cyan;
 }
 
 #score,#vie{
 
-padding:10px 20px;
+    color:#fff;
+    font-size:30px;
+    font-weight:bold;
 
-border:2px solid cyan;
+    padding:14px 28px;
 
-border-radius:15px;
+    border:2px solid rgba(0,255,255,.6);
 
-background:rgba(0,0,0,.35);
+    border-radius:20px;
 
-backdrop-filter:blur(5px);
+    background:rgba(0,0,0,.28);
 
-box-shadow:0 0 20px cyan;
+    backdrop-filter:blur(18px);
 
+    box-shadow:
+        0 0 15px cyan,
+        0 0 40px rgba(0,255,255,.5),
+        inset 0 0 20px rgba(255,255,255,.12);
+
+    text-shadow:
+        0 0 10px cyan,
+        0 0 25px cyan;
+
+    animation:glow 2s ease-in-out infinite alternate;
+}
+
+/* Halo lumineux */
+.light{
+    position:absolute;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:radial-gradient(circle,
+        rgba(0,255,255,.18),
+        transparent 70%);
+    filter:blur(80px);
+    animation:float 10s ease-in-out infinite;
+}
+
+/* Animations */
+
+@keyframes glow{
+    from{
+        box-shadow:0 0 15px cyan;
+    }
+    to{
+        box-shadow:
+        0 0 30px cyan,
+        0 0 60px #00eaff;
+    }
+}
+
+@keyframes stars{
+    from{
+        transform:translateY(0);
+    }
+    to{
+        transform:translateY(500px);
+    }
+}
+
+@keyframes nebula{
+    from{
+        transform:rotate(0deg) scale(1);
+    }
+    to{
+        transform:rotate(8deg) scale(1.25);
+    }
+}
+
+@keyframes float{
+    0%{
+        transform:translate(-100px,-50px);
+    }
+    50%{
+        transform:translate(150px,100px);
+    }
+    100%{
+        transform:translate(-100px,-50px);
+    }
 }
